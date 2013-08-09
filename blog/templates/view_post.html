@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}  {{post.title}} {% endblock %}
+
+{% block content %}
+<h1> Post: {{post.title}} </h1>
+<p>By: <a href="{%url 'blog.views.view_user' post.user.username %}">{{post.user.username}}</a>
+<br>
+<p>Category: <a href="{%url 'blog.views.view_category' post.category.name%}">{{post.category.name}}</a></p>
+<p>{{post.body}}</p>
+<br/>
+<p> Tags: {% for tag in post.tags.all%} <a href="{% url 'blog.views.view_tag' tag.tag %}">{{tag.tag}}</a> {% empty %} None {% endfor %}</p>
+<br/>
+Comments:
+<br/>
+{% for comment in post.comment_set.all %}
+<ul>
+<li>{{comment.body}} by <a href="{%url 'blog.views.view_user' comment.user.username %}">{{post.user.username}}</a></li>
+</ul>
+{%empty%}
+<p>No comments yet.</p>
+{% endfor %}
+
+{% if user.is_authenticated %}
+<form action="{% url 'blog.views.post_comment' post.id %}" method="post">{% csrf_token %}
+{{comment_form.as_p}}
+    <input type="submit" value="Submit" />
+</form>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}Sample site{% endblock %}</title>
+</head>
+
+<body>
+    <div id="nav">
+        Return: <a href="/">Home</a>
+    </div>
+    <div id="messages">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    </div>
+    <div id="user">
+        {% if user.is_authenticated %}
+            <p>Welcome, {{ user.username }}.</p>
+            <a href={% url 'blog.views.logout_view' %}>Sign Out</a>
+        {% else %}
+        {% endif %}
+    </div>
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

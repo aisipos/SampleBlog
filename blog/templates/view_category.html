@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}  Category {{category.name}} {% endblock %}
+
+{% block content %}
+<h1> Posts in Category: {{category.name}} </h1>
+{% for post in category.post_set.all %}
+<ul>
+<li>
+<a href="{%url 'blog.views.view_post' post.id%}">{{post.title}}</a> by <a href="{%url 'blog.views.view_user' post.user.username %}">{{post.user.username}}</a>
+</li>
+</ul>
+{% empty %}
+No Posts
+{% endfor %}
+</ul>
+{% endblock %}
